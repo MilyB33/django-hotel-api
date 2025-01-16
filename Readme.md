@@ -1,5 +1,5 @@
-[!NOTE]
-Work in progress
+> [!NOTE]
+> Work in progress
 
 # Django hotel room booking API
 
