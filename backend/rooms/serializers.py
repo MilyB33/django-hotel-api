@@ -1,9 +1,11 @@
 from rest_framework import serializers
 
 from .models import Room
+from hotels.models import Hotel
 
 class RoomSerializer(serializers.ModelSerializer):
     hotel_name = serializers.CharField(source='hotel.name', read_only=True)
+    hotel = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Room
@@ -18,7 +20,18 @@ class RoomSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'hotel_name']
 
-        def create(self, validated_data):
-            hotel_id = self.context['view'].kwargs['hotel_id']
-            validated_data['hotel'] = hotel_id
-            return super().create(validated_data)
+
+    def create(self, validated_data):
+        hotel_id = self.context.get('hotel_id') 
+
+        if not hotel_id:
+            raise serializers.ValidationError({'hotel': 'Hotel ID is required.'})
+            
+        try:
+            hotel = Hotel.objects.get(id=hotel_id) 
+        except Hotel.DoesNotExist:
+            raise serializers.ValidationError({'hotel': 'Invalid hotel ID.'})
+
+        validated_data['hotel'] = hotel  
+
+        return super().create(validated_data)

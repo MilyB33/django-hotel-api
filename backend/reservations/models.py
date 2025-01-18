@@ -12,17 +12,33 @@ class Reservation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def clean(self):
-        if self.check_in_date >= self.check_out_date:
-            raise ValidationError("Check-out date must be after check-in date.")
-        
-        overlapping_reservations = Reservation.objects.filter(
-            room=self.room,
-            check_in_date__lt=self.check_out_date,
-            check_out_date__gt=self.check_in_date
-        ).exists()
+        if self.pk:
+            original = Reservation.objects.get(pk=self.pk)
+            if original.check_in_date != self.check_in_date or original.check_out_date != self.check_out_date:
+                if self.check_in_date >= self.check_out_date:
+                    raise ValidationError({"error": "Check-out date must be after check-in date."})
+                
+                overlapping_reservations = Reservation.objects.filter(
+                    room=self.room,
+                    check_in_date__lt=self.check_out_date,
+                    check_out_date__gt=self.check_in_date
+                ).exclude(pk=self.pk).exists()
 
-        if overlapping_reservations:
-            raise ValidationError("The room is already booked for the selected date.")
+                if overlapping_reservations:
+                     raise ValidationError({"error": "The room is already booked for the selected date."})
+                
+        else:
+            if self.check_in_date >= self.check_out_date:
+                raise ValidationError({"error": "Check-out date must be after check-in date."})
+            
+            overlapping_reservations = Reservation.objects.filter(
+                room=self.room,
+                check_in_date__lt=self.check_out_date,
+                check_out_date__gt=self.check_in_date
+            ).exists()
+
+            if overlapping_reservations:
+                raise ValidationError({"error": "The room is already booked for the selected date."})
         
     def save(self, *args, **kwargs):
         self.clean()

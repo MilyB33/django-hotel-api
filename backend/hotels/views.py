@@ -1,11 +1,8 @@
 from rest_framework import viewsets
-from rest_framework.decorators import action
-from django.http import JsonResponse
 
 from .models import Hotel
-from rooms.models import Room
 from .serializers import HotelSerializer
-from rooms.serializers import RoomSerializer
+from api.decorators import staff_required
 
 # Create your views here.
 class HotelViewSet(viewsets.ModelViewSet):
@@ -13,4 +10,14 @@ class HotelViewSet(viewsets.ModelViewSet):
     serializer_class = HotelSerializer
     lookup_field = 'pk'
 
+    @staff_required
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
 
+    @staff_required
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+    
+    @staff_required
+    def destroy(self, request, *args, **kwargs):
+        return super().destroy(request, *args, **kwargs)
