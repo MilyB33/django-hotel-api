@@ -47,7 +47,6 @@ class UserReservationView(generics.ListAPIView):
 
 
     def get_queryset(self):
-        print(self)
         user = self.request.user
 
         if user.is_authenticated:
@@ -63,10 +62,6 @@ class UserReservationView(generics.ListAPIView):
             context['user'] = user
 
         return context
-        
-    def list(self, request, *args, **kwargs):
-        print("list")
-        return super().list(request, *args, **kwargs)
 
     
 user_reservations = UserReservationView.as_view()

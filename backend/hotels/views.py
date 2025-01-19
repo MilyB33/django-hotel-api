@@ -19,5 +19,9 @@ class HotelViewSet(viewsets.ModelViewSet):
         return super().update(request, *args, **kwargs)
     
     @staff_required
+    def partial_update(self, request, *args, **kwargs):
+        return super().partial_update(request, *args, **kwargs)
+    
+    @staff_required
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
