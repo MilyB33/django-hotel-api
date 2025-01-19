@@ -1,2 +1,0 @@
-staff = "029cd4334f25183db447e904ed91556c52c00b66"
-regular = "ed57c78cd3cfa17e486de9ef26fc7984d1a0dfbe"
