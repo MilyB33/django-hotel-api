@@ -16,7 +16,6 @@ class RoomSerializer(serializers.ModelSerializer):
             'room_type', 
             'capacity', 
             'price_per_night', 
-            'is_available'
         ]
         read_only_fields = ['id', 'hotel_name']
 

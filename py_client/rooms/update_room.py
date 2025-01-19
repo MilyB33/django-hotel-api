@@ -1,7 +1,7 @@
 import requests
 
 room_id = input("Provide room id:\n")
-is_available = input("Provide availability of the room (True or False):\n")
+type = input("Provide room type (single, double, suite):\n")
 token = input("Provide authorization token:\n")
 endpoint = f'http://127.0.0.1:8000/api/rooms/{room_id}/'
 
@@ -10,7 +10,7 @@ headers = {
 }
 
 data = {
-    "is_available": is_available,
+    "room_type": type,
 }
 
 response = requests.patch(endpoint,json=data, headers=headers)

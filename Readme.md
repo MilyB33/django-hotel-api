@@ -38,7 +38,7 @@ A simple Django API app for reserving hotel rooms lets users check available roo
 
 ## Data
 
-There are already some demo data in database:
+The database is preloaded with some demo data for testing purposes:
 
 staff/admin user:
 

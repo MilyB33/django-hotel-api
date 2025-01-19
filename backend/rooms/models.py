@@ -32,7 +32,6 @@ class Room(models.Model):
         decimal_places=2,
         help_text="Price per night for the room."
     )
-    is_available = models.BooleanField(default=True)
 
     def __str__(self):
         return f"{self.get_room_type_display()} - {self.hotel.name}"
